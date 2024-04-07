@@ -1,1 +1,1 @@
-export { LineProvider, useLiffInstance } from './Core'
+export { LineProvider, useLiffInstance, useLiffError } from './Core'

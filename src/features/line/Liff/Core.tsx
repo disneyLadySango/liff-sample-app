@@ -13,10 +13,12 @@ import liff, { Liff } from '@line/liff'
 
 import { useToast } from '@/components/design-system'
 
-const LineContext = createContext<Liff | null>(null)
+const LiffInstanceContext = createContext<Liff | null>(null)
+const LiffErrorContext = createContext<Error | null>(null)
 
 export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [liffInstance, setLiffInstance] = useState<Liff | null>(null)
+  const [liffError, setLiffError] = useState<Error | null>(null)
 
   const toast = useToast()
 
@@ -47,16 +49,29 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
           duration: 5000,
           isClosable: true,
         })
+        setLiffError(err)
       })
   }, [liffInstance, toast])
 
   return (
-    <LineContext.Provider value={liffInstance}>{children}</LineContext.Provider>
+    <LiffInstanceContext.Provider value={liffInstance}>
+      <LiffErrorContext.Provider value={liffError}>
+        {children}
+      </LiffErrorContext.Provider>
+    </LiffInstanceContext.Provider>
   )
 }
 
 export const useLiffInstance = (): Liff | null => {
-  const context = useContext(LineContext)
+  const context = useContext(LiffInstanceContext)
+  if (context === undefined) {
+    throw new Error('useLine must be used within a LineProvider')
+  }
+  return context
+}
+
+export const useLiffError = (): Error | null => {
+  const context = useContext(LiffErrorContext)
   if (context === undefined) {
     throw new Error('useLine must be used within a LineProvider')
   }
