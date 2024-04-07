@@ -1,9 +1,14 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest, NextResponse } from 'next/server'
 
-export const GET = async (req: NextRequest, { params }: {
-  params: { lineId: string }
-} ) => {
+export const GET = async (
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: { lineId: string }
+  },
+) => {
   const { lineId } = params
 
-  return NextResponse.json({message: lineId})
+  return NextResponse.json({ message: lineId })
 }
