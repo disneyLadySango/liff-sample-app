@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 
-import { LineProvider } from '@/features/line/Provider'
+import { LineProvider } from '@/features/line/Liff'
 
 import { ChakraProvider } from '@/components/design-system'
 

@@ -55,7 +55,7 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-export const useLine = (): Liff | null => {
+export const useLiffInstance = (): Liff | null => {
   const context = useContext(LineContext)
   if (context === undefined) {
     throw new Error('useLine must be used within a LineProvider')

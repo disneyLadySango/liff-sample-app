@@ -1,10 +1,13 @@
 import Image from 'next/image'
 
+import { LineProfileGetButton } from '@/features/line/Profile/GetButton'
+
 import styles from './page.module.css'
 
 export default function Home() {
   return (
     <main className={styles.main}>
+      <LineProfileGetButton />
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
