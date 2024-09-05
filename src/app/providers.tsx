@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, ReactNode } from 'react'
 
 import { Auth0Provider } from '@auth0/auth0-react'
