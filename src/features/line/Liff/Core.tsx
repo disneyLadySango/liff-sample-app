@@ -63,6 +63,9 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (isAuthenticated) {
       window.location.href = '/user-insert'
     }
+    if (window.location.pathname === '/user-insert') {
+      return
+    }
     if (liffInstance === null) {
       return
     }
