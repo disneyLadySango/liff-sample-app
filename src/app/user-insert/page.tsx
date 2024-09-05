@@ -47,7 +47,9 @@ const UserInsertPage: FC = () => {
     })
     if (!result.ok) {
       console.error('Failed to insert user:', result)
-      alert('ユーザー登録に失敗しました')
+      alert(`ユーザー登録に失敗しました: ${result.status}:${result.statusText}`)
+      const error = await result.json()
+      alert(JSON.stringify(error))
       return
     }
     alert('ユーザー登録に成功しました')
