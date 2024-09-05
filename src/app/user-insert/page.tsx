@@ -59,6 +59,8 @@ const UserInsertPage: FC = () => {
         <Button onClick={() => onInsert()}>登録処理！！！</Button>
       </chakra.div>
       <chakra.div>Request:{requestBody}</chakra.div>
+      <chakra.div>Profile:{JSON.stringify(auth.user)}</chakra.div>
+      <chakra.div>IsAuthenticated: {String(auth.isAuthenticated)}</chakra.div>
     </chakra.div>
   )
 }
