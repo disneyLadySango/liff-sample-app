@@ -34,6 +34,10 @@ const UserInsertPage: FC = () => {
 
     alert(`アクセストークン取得完了: ${accessToken}`)
 
+    const { __raw, ...others } = (await auth.getIdTokenClaims()) ?? {}
+    alert(`IDトークン取得完了: ${JSON.stringify(others)}`)
+    alert(`IDトークン取得完了: ${__raw}`)
+
     const body = {
       line_id: profile?.userId,
       id_token: userId,
