@@ -62,15 +62,14 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [liffInstance, toast])
 
   useEffect(() => {
+    if (pathname !== '/') {
+      return
+    }
     if (isLoading) {
       return
     }
     if (isAuthenticated) {
-      if (pathname === '/') {
-        router.push('/user-insert')
-        return
-      }
-      return
+      router.push('/user-insert')
     }
     if (liffInstance === null) {
       return
