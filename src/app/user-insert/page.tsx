@@ -21,16 +21,10 @@ const UserInsertPage: FC = () => {
 
     const call = async () => {
       const profile = await liff?.getProfile()
-      if (!profile) {
-        return
-      }
       const userId = auth.user?.sub
       const accessToken = await auth.getAccessTokenSilently()
-      if (!userId || !accessToken) {
-        return
-      }
       const body = {
-        line_id: profile.userId,
+        line_id: profile?.userId,
         id_token: userId,
       }
       setRequestBody(JSON.stringify({ ...body, accessToken }))
