@@ -60,10 +60,25 @@ const UserInsertPage: FC = () => {
     alert(JSON.stringify(data))
   }
 
+  const onGet = async () => {
+    const { data, error, status, statusText } = await supabase
+      .from('users')
+      .select('*')
+    if (error) {
+      console.error('Failed to get user:', error)
+      alert(`ユーザー取得に失敗しました: ${status}:${statusText}`)
+      alert(JSON.stringify(error))
+      return
+    }
+    alert('ユーザー取得に成功しました')
+    alert(JSON.stringify(data))
+  }
+
   return (
     <chakra.div>
       <chakra.div>
         <Button onClick={() => onInsert()}>登録処理！！！</Button>
+        <Button onClick={() => onGet()}>取得！！！</Button>
       </chakra.div>
       <chakra.div>Request:{requestBody}</chakra.div>
       <chakra.div>Profile:{JSON.stringify(auth.user)}</chakra.div>
