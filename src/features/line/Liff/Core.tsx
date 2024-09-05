@@ -66,10 +66,10 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
       return
     }
     if (isAuthenticated) {
-      if (pathname === '/user-insert') {
+      if (pathname === '/') {
+        router.push('/user-insert')
         return
       }
-      router.push('/user-insert')
       return
     }
     if (liffInstance === null) {
