@@ -43,12 +43,14 @@ const UserInsertPage: FC = () => {
         return
       }
     }
+
+    void call()
   }
 
   return (
     <chakra.div>
       <chakra.div>
-        <Button>登録処理！！！</Button>
+        <Button onClick={() => onInsert()}>登録処理！！！</Button>
       </chakra.div>
       <chakra.div>Request:{requestBody}</chakra.div>
     </chakra.div>
