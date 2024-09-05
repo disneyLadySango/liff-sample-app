@@ -15,7 +15,6 @@ export const Providers: FC<{ children: ReactNode }> = ({ children }) => {
         domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN as string}
         clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID as string}
         authorizationParams={{
-          redirect_uri: process.env.NEXT_PUBLIC_ORIGIN as string,
           connection: 'line',
         }}
       >
