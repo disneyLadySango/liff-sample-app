@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react'
 
-import { useRouter } from 'next/router'
+import { useRouter, usePathname } from 'next/navigation'
 
 import { useAuth0 } from '@auth0/auth0-react'
 import liff, { Liff } from '@line/liff'
@@ -28,6 +28,7 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const toast = useToast()
 
   const router = useRouter()
+  const pathname = usePathname()
 
   useEffect(() => {
     console.log('start liff.init()...')
@@ -65,7 +66,7 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
       return
     }
     if (isAuthenticated) {
-      if (window.location.pathname === '/user-insert') {
+      if (pathname === '/user-insert') {
         return
       }
       router.push('/user-insert')
@@ -83,7 +84,14 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
       router.push('/user-insert')
       // alert('loginWithRedirect')
     })
-  }, [isAuthenticated, isLoading, liffInstance, loginWithRedirect, router])
+  }, [
+    isAuthenticated,
+    isLoading,
+    liffInstance,
+    loginWithRedirect,
+    pathname,
+    router,
+  ])
 
   return (
     <LiffInstanceContext.Provider value={liffInstance}>
