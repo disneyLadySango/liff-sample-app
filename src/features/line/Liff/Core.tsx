@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react'
 
+import NextLink from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 
 import { useAuth0 } from '@auth0/auth0-react'
@@ -77,10 +78,24 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
         connection: 'line',
         redirect_uri: window.location.href,
       },
-    }).then(() => {
-      alert('loginWithRedirect')
-      router.push('/user-insert')
     })
+      .then(() => {
+        toast({
+          title: 'Redirecting to LINE Login',
+          status: 'info',
+          duration: 5000,
+          isClosable: true,
+        })
+      })
+      .catch((err) => {
+        console.error('loginWithRedirect() failed', err)
+        toast({
+          title: 'Failed to Redirect to LINE Login',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        })
+      })
   }, [
     isAuthenticated,
     isLoading,
@@ -88,12 +103,17 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
     loginWithRedirect,
     pathname,
     router,
+    toast,
   ])
 
   return (
     <LiffInstanceContext.Provider value={liffInstance}>
       <LiffErrorContext.Provider value={liffError}>
         {children}
+        <div>isAuthenticated: {String(isAuthenticated)}</div>
+        <div>
+          <NextLink href="/user-insert">認証できたらこちら</NextLink>
+        </div>
       </LiffErrorContext.Provider>
     </LiffInstanceContext.Provider>
   )
