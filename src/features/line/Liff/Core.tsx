@@ -66,6 +66,7 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
     loginWithRedirect({
       authorizationParams: {
         connection: 'line',
+        redirect_uri: process.env.NEXT_PUBLIC_ORIGIN as string,
       },
     }).then(() => {
       // alert('loginWithRedirect')
