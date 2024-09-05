@@ -5,6 +5,7 @@ import { FC, useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import { useLiffInstance } from '@/features/line/Liff'
+import { useSupabase } from '@/features/supabase'
 
 import { chakra, Button } from '@/components/design-system'
 
@@ -14,6 +15,8 @@ const UserInsertPage: FC = () => {
   const liff = useLiffInstance()
 
   const auth = useAuth0()
+
+  const supabase = useSupabase()
 
   const onInsert = async () => {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL as string
@@ -36,23 +39,21 @@ const UserInsertPage: FC = () => {
       id_token: userId,
     }
     setRequestBody(JSON.stringify({ ...body, accessToken }))
-    const result = await fetch(`${url}/rest/v1/users`, {
-      headers: {
-        apikey: apiKey,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      method: 'POST',
-      body: JSON.stringify(body),
-    })
-    if (!result.ok) {
-      console.error('Failed to insert user:', result)
-      alert(`ユーザー登録に失敗しました: ${result.status}:${result.statusText}`)
-      const error = await result.json()
+    const { data, error, status, statusText } = await supabase
+      .from('users')
+      .insert({
+        line_id: profile?.userId,
+        id_token: userId,
+      })
+      .select()
+    if (error) {
+      console.error('Failed to insert user:', error)
+      alert(`ユーザー登録に失敗しました: ${status}:${statusText}`)
       alert(JSON.stringify(error))
       return
     }
     alert('ユーザー登録に成功しました')
+    alert(JSON.stringify(data))
   }
 
   return (
