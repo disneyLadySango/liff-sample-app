@@ -21,7 +21,7 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [liffInstance, setLiffInstance] = useState<Liff | null>(null)
   const [liffError, setLiffError] = useState<Error | null>(null)
 
-  const { loginWithRedirect, isAuthenticated } = useAuth0()
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0()
 
   const toast = useToast()
 
@@ -57,8 +57,11 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [liffInstance, toast])
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isLoading) {
       return
+    }
+    if (isAuthenticated) {
+      window.location.href = '/user-insert'
     }
     if (liffInstance === null) {
       return
@@ -71,7 +74,7 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }).then(() => {
       // alert('loginWithRedirect')
     })
-  }, [isAuthenticated, liffInstance, loginWithRedirect])
+  }, [isAuthenticated, isLoading, liffInstance, loginWithRedirect])
 
   return (
     <LiffInstanceContext.Provider value={liffInstance}>
