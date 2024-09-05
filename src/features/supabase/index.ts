@@ -9,12 +9,12 @@ export const useSupabase = () => {
     process.env.NEXT_PUBLIC_SUPABASE_API_KEY as string,
     {
       accessToken: async () => {
-        const accessToken = await auth.getAccessTokenSilently()
+        const accessToken = await auth.getIdTokenClaims()
 
         // Alternatively you can use (await auth.getIdTokenClaims()).__raw to
         // use an ID token instead.
 
-        return accessToken
+        return accessToken?.__raw ?? ''
       },
     },
   )
