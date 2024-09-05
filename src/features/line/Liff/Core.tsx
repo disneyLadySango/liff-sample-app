@@ -68,7 +68,7 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
         connection: 'line',
       },
     }).then(() => {
-      alert('loginWithRedirect')
+      // alert('loginWithRedirect')
     })
   }, [isAuthenticated, liffInstance, loginWithRedirect])
 
