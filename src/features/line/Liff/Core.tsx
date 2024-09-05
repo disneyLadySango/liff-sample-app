@@ -62,14 +62,14 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [liffInstance, toast])
 
   useEffect(() => {
-    if (pathname !== '/') {
-      return
-    }
     if (isLoading) {
       return
     }
     if (isAuthenticated) {
-      router.push('/user-insert')
+      if (pathname === '/') {
+        router.push('/user-insert')
+      }
+      return
     }
     if (liffInstance === null) {
       return
@@ -77,7 +77,7 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
     loginWithRedirect({
       authorizationParams: {
         connection: 'line',
-        redirect_uri: process.env.NEXT_PUBLIC_ORIGIN as string,
+        redirect_uri: window.location.href,
       },
     }).then(() => {
       router.push('/user-insert')
