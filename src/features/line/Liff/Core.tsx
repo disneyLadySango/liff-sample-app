@@ -9,6 +9,8 @@ import {
   useState,
 } from 'react'
 
+import { useRouter } from 'next/router'
+
 import { useAuth0 } from '@auth0/auth0-react'
 import liff, { Liff } from '@line/liff'
 
@@ -24,6 +26,8 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0()
 
   const toast = useToast()
+
+  const router = useRouter()
 
   useEffect(() => {
     console.log('start liff.init()...')
@@ -61,7 +65,11 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
       return
     }
     if (isAuthenticated) {
-      window.location.href = '/user-insert'
+      if (window.location.pathname === '/user-insert') {
+        return
+      }
+      router.push('/user-insert')
+      return
     }
     if (liffInstance === null) {
       return
@@ -72,9 +80,10 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
         redirect_uri: process.env.NEXT_PUBLIC_ORIGIN as string,
       },
     }).then(() => {
+      router.push('/user-insert')
       // alert('loginWithRedirect')
     })
-  }, [isAuthenticated, isLoading, liffInstance, loginWithRedirect])
+  }, [isAuthenticated, isLoading, liffInstance, loginWithRedirect, router])
 
   return (
     <LiffInstanceContext.Provider value={liffInstance}>
