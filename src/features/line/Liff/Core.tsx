@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react'
 
+import { useAuth0 } from '@auth0/auth0-react'
 import liff, { Liff } from '@line/liff'
 
 import { useToast } from '@/components/design-system'
@@ -19,6 +20,8 @@ const LiffErrorContext = createContext<Error | null>(null)
 export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [liffInstance, setLiffInstance] = useState<Liff | null>(null)
   const [liffError, setLiffError] = useState<Error | null>(null)
+
+  const { loginWithRedirect, isAuthenticated } = useAuth0()
 
   const toast = useToast()
 
@@ -52,6 +55,22 @@ export const LineProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setLiffError(err)
       })
   }, [liffInstance, toast])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      return
+    }
+    if (liffInstance === null) {
+      return
+    }
+    loginWithRedirect({
+      authorizationParams: {
+        connection: 'line',
+      },
+    }).then(() => {
+      alert('loginWithRedirect')
+    })
+  }, [isAuthenticated, liffInstance, loginWithRedirect])
 
   return (
     <LiffInstanceContext.Provider value={liffInstance}>
